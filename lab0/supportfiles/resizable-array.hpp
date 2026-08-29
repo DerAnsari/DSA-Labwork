@@ -48,13 +48,13 @@ public:
     if (size() == _capacity)
       resize(2 * _capacity);
 
-    data[size() + 1] = value;
+    data[_size++] = value;
     _size++;
   }
 
   void pop_back() {
     if (empty())
-      throw new std::underflow_error("empty array");
+      throw std::underflow_error("empty array");
 
     if (size() < _capacity / 4)
       resize(_capacity / 2);
@@ -63,8 +63,8 @@ public:
   }
 
   char back(int index) const {
-    if (index > _capacity || index < 0)
-      throw new std::underflow_error("Index Out of bounds");
+    if (index >= _size || index < 0)
+      throw std::out_of_range("Index Out of bounds");
 
     return data[index];
   }

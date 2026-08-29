@@ -1,4 +1,5 @@
 #pragma once
+#include <stdexcept>
 #include <string>
 
 // =============================================================================
@@ -39,29 +40,31 @@ public:
   }
 
   void push_front(int value) {
-    // Implement push_front to add a new node with the given value at the front
-    // of the list. Handle the case when the list is empty and update head,
-    // tail, and _size accordingly.
-    // ----- TODO -------
     Node *newFront = new Node(value);
-    new u()
+    newFront->next = head;
+    head = newFront;
+    _size++;
   }
 
   char pop_front() {
-    // Implement pop_front to remove the node at the front of the list.
-    // If the list is empty, handle it appropriately (e.g., return '\0' or throw
-    // an exception).
-    // ----- TODO -------
-    return '\0'; // Placeholder return value, should be replaced with actual
-                 // implementation
+    if (empty())
+      throw std::underflow_error("LinkedList is empty");
+
+    Node *tempPtr = head;
+    head = head->next;
+    char popVal = tempPtr->data;
+    delete tempPtr;
+    return popVal;
+  }
+
+  char pop_back(int value) {
+    // TODO maybe
   }
 
   char front() const {
-    // Implement front to return the value of the node at the front of the list.
-    // If the list is empty, handle it appropriately (e.g., return '\0' or throw
-    // an exception).
-    // ----- TODO -------
-    return '\0'; // Placeholder return value, should be replaced with actual
-                 // implementation
+    if (empty())
+      throw std::underflow_error("LinkedList is empty");
+
+    return head->data;
   }
 };
