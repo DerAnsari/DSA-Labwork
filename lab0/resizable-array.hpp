@@ -49,7 +49,6 @@ public:
       resize(2 * _capacity);
 
     data[_size++] = value;
-    _size++;
   }
 
   void pop_back() {

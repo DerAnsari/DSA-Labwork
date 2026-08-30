@@ -1,1 +1,0 @@
-Compare the performance of two implementation of text buffer TextBufferArray and TextBufferLinkedList. Use the provided stopwatch class to measure the time taken for sequence of operations (insertion, deletion, curser movement) in both implementations.

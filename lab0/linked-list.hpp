@@ -7,6 +7,8 @@
 // Complete the implementation of the LinkedList class below.
 // You will need to implement the push_front, push_back, and pop_front methods.
 // =============================================================================
+//
+// COMPLETED IT
 
 class LinkedList {
 private:
@@ -54,11 +56,8 @@ public:
     head = head->next;
     char popVal = tempPtr->data;
     delete tempPtr;
+    _size--;
     return popVal;
-  }
-
-  char pop_back(int value) {
-    // TODO maybe
   }
 
   char front() const {
