@@ -1,0 +1,7 @@
+Compare the performance of two implementation of text buffer TextBufferArray and TextBufferLinkedList. Use the provided stopwatch class to measure the time taken for sequence of operations (insertion, deletion, curser movement) in both implementations.
+
+The Array approach was faster with a time of 57 milliseconds vs 61 of the Linked List.
+
+The time complexity is O(1) for all functions of both except for getText() which was actually O(n) where n is the number of characters.
+
+The array approach is faster because arrays allot contiguous memory  which makes accessing a lot faster as opposed to LL where each node can be stored anywhere across the heap which makes accessing slower. However, arrays also need to be constantly resized so for for large n values, LL is better since there is no need for resizing. On the other hand, arrays sometimes waste memory as they are always resized by double the original size so if your n is a lot less than the new size, the excess space gets wasted.
