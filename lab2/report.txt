@@ -1,0 +1,23 @@
+Lab 2: Hex (board game) — Report
+==================================
+The No-Draw Theorum:
+This is what the complied program outputted:
+=== Part C: The No-Draw Theorem ===
+Board 11x11, 200 fully-filled trials.
+Violations (both or neither player wins): 0
+No-Draw Theorem holds in all trials.
+
+this actually works since in the situation where it is fully filled we will never have a situation where both win since one winning blockes the other ones and any chance of it winning since both have to go parallel to each other, it is for that reason that out no draw theorum works
+
+Performance comparison: 
+Board 250x250, 50000 moves.
+[QuickFind]     winner = -1   time = 4548 ms
+[QuickUnion]    winner = -1   time = 7 ms
+[WeightedQU]    winner = -1   time = 9 ms
+
+quick find is significantly slower than the other two aproaches the reason is because we have to iterate throught the entier array in this case its in the billions since n is likely ~60000 (250 * 250 after all) and m istelf is 50000
+
+quick union is significantly better as it only takes 7 mili seconds however in a theoretical point of view its actually workse than weighted quick union. this is due to the fact that the worst case of quick union is worse compared to weighted quick union. since weighted quick union is always O(logn) wheras the regular quick union has a worst case scenario which is O(n)
+however this situation never happens since the way the hex game is designed it is for that reason that the regular quick union actually works in this situation. but it would be best in most situations to use weighted quick union
+
+our size union and path compression also help significantly since we check by size we have bounded it by O(log2) and then path compression flattens this out which allows us to reach the O(1) time complexity on find. well its worth mentioning that the actual time complexity isnt O(1) its amortized through something called the inverse ackerman function. but that function istelf is soo slow that it basically can be removed and it would eb fine so in light of this we can just use O(1)
