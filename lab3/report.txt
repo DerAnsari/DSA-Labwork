@@ -1,0 +1,39 @@
+Lab 3: Priority Queues — Report
+================================
+
+TODO: write your findings here.
+
+1. Empirical analysis of 3-SUM (Part A)
+   - Record the running time T(n) for n = 500, 1,000, 2,000, 4,000, 8,000, 16,000
+     (compiled with -O2).
+
+       n        T(n)   (ms)
+       500      7696       18
+       1,000    62364      51
+       2,000    505567     323
+       4,000    3999346    2429
+       8,000    32357511   19097
+       16,000   256604642  151463
+
+   - Estimate b: as n doubles, T(n) should scale by a factor of 2^b.
+     Use consecutive ratios T(2n)/T(n) from your table to estimate b.
+    
+      Ratios 
+      -
+      8.10
+      8.11
+      7.911
+      0.09
+      7.93
+
+   - Estimate a: using b above and one (n, T(n)) pair, solve a = T(n) / n^b.
+   - State your final estimate of a and b, and compare b to the known
+     asymptotic complexity of the brute-force 3-SUM algorithm.
+
+     log2 Ratio
+     -
+     3.02
+     3.02
+     2.98
+     -3.47
+     2.99
