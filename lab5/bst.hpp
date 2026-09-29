@@ -1,5 +1,7 @@
 #pragma once
 
+#include <algorithm>
+#include <climits>
 #include <cstddef>
 #include <queue>
 #include <tuple>
@@ -43,7 +45,10 @@ std::vector<int> levelOrder(Node *root) {
   trace.push(root);
   Node *curr;
 
-  while (trace.empty()) {
+  if (root == nullptr)
+    return results;
+
+  while (!trace.empty()) {
     curr = trace.front();
     results.push_back(curr->key);
 
@@ -57,8 +62,8 @@ std::vector<int> levelOrder(Node *root) {
   return results;
 }
 
-constexpr long long LOW = -19392393;
-constexpr long long HIGH = 19392393;
+constexpr long long LOW = LLONG_MIN;
+constexpr long long HIGH = LLONG_MAX;
 
 // Part B: rebuild the BST whose level order traversal is `keys` and return
 // its root (nullptr if keys is empty).
@@ -75,9 +80,9 @@ Node *buildFromLevelOrder(const std::vector<int> &keys) {
   std::queue<std::tuple<Node *, long long, long long>> q;
 
   q.push({root, LOW, HIGH});
-  size_t i;
+  size_t i{1};
 
-  while (!q.empty() && keys.size()) {
+  while (!q.empty() && i < keys.size()) {
     auto [node, lo, hi] = q.front();
     q.pop();
 
@@ -103,41 +108,81 @@ Node *buildFromLevelOrder(const std::vector<int> &keys) {
 // Maximum depth of any node in the tree.
 int height(Node *root) {
   // TODO
-  return -2; // placeholder return value
+  if (root == nullptr)
+    return -1;
+
+  return 1 + std::max(height(root->left),
+                      height(root->right)); // placeholder return value
 }
 
 // Number of nodes with an odd key.
 int sizeOdd(Node *root) {
   // TODO
-  return -1; // placeholder return value
+  if (root == nullptr)
+    return 0;
+
+  int count = (root->key % 2 != 0) ? 1 : 0;
+  return count + sizeOdd(root->left) + sizeOdd(root->right);
 }
 
 // At every node, do the left and right subtrees have the same height?
 bool isPerfectlyBalanced(Node *root) {
   // TODO
-  return false; // placeholder return value
+  if (root == nullptr)
+    return true;
+
+  return (height(root->left) == height(root->right)) &&
+         isPerfectlyBalanced(root->left) && isPerfectlyBalanced(root->right);
 }
 
 // Is every node semi-balanced? (see lab handout for the definition)
 bool isSemiBalanced(Node *root) {
   // TODO
-  return false; // placeholder return value
+  if (root == nullptr)
+    return true;
+
+  int a = size(root->left);
+  int b = size(root->right);
+  int L = std::max(a, b);
+  int S = std::min(a, b);
+
+  return (L + 1 <= 2 * (S + 1)) && isSemiBalanced(root->left) &&
+         isSemiBalanced(root->right);
 }
 
 // Number of nodes at depth d.
 int sizeAtDepth(Node *root, int d) {
   // TODO
-  return -1; // placeholder return value
+  if (root == nullptr)
+    return 0;
+
+  if (d == 0)
+    return 1;
+
+  return sizeAtDepth(root->left, d - 1) + sizeAtDepth(root->right, d - 1);
 }
 
 // Number of nodes whose depth is < d.
 int sizeAboveDepth(Node *root, int d) {
   // TODO
-  return -1; // placeholder return value
+  if (root == nullptr)
+    return 0;
+
+  if (d <= 0)
+    return 0;
+
+  return 1 + sizeAboveDepth(root->left, d - 1) +
+         sizeAboveDepth(root->right, d - 1);
 }
 
 // Number of nodes whose depth is > d.
 int sizeBelowDepth(Node *root, int d) {
   // TODO
-  return -1; // placeholder return value
+  if (root == nullptr)
+    return 0;
+
+  if (d < 0)
+    return size(root);
+
+  return sizeBelowDepth(root->left, d - 1) + sizeBelowDepth(root->right, d - 1);
 }
