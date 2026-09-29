@@ -1,6 +1,8 @@
 #pragma once
 
+#include <cstddef>
 #include <queue>
+#include <tuple>
 #include <vector>
 
 struct Node {
@@ -55,13 +57,42 @@ std::vector<int> levelOrder(Node *root) {
   return results;
 }
 
+constexpr long long LOW = -19392393;
+constexpr long long HIGH = 19392393;
+
 // Part B: rebuild the BST whose level order traversal is `keys` and return
 // its root (nullptr if keys is empty).
 Node *buildFromLevelOrder(const std::vector<int> &keys) {
   // TODO: use either approach from the lab handout:
   //   1. insert the keys one by one into an empty BST, or
   //   2. a queue of (node, min, max) entries for O(n) time.
-  return nullptr; // placeholder return value
+  // return nullptr;  placeholder return value
+
+  if (keys.empty())
+    return nullptr;
+
+  Node *root = new Node(keys[0]);
+  std::queue<std::tuple<Node *, long long, long long>> q;
+
+  q.push({root, LOW, HIGH});
+  size_t i;
+
+  while (!q.empty() && keys.size()) {
+    auto [node, lo, hi] = q.front();
+    q.pop();
+
+    if (i < keys.size() && keys[i] > lo && keys[i] < node->key) {
+      node->left = new Node(keys[i++]);
+      q.push({node->left, lo, node->key});
+    }
+
+    if (i < keys.size() && keys[i] > node->key && keys[i] < hi) {
+      node->right = new Node(keys[i++]);
+      q.push({node->right, node->key, hi});
+    }
+  }
+
+  return root;
 }
 
 // ---------------------------------------------------------------
