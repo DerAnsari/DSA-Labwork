@@ -37,9 +37,6 @@ void destroy(Node *root) {
 
 // Part A: keys of the tree level by level, left to right.
 std::vector<int> levelOrder(Node *root) {
-  // TODO: use a std::queue<Node*>. Start with the root; repeatedly
-  // remove a node, record its key, and add its non-null children
-  // (left, then right) to the queue.
   std::vector<int> results;
   std::queue<Node *> trace;
   trace.push(root);
@@ -66,13 +63,7 @@ constexpr long long LOW = LLONG_MIN;
 constexpr long long HIGH = LLONG_MAX;
 
 // Part B: rebuild the BST whose level order traversal is `keys` and return
-// its root (nullptr if keys is empty).
 Node *buildFromLevelOrder(const std::vector<int> &keys) {
-  // TODO: use either approach from the lab handout:
-  //   1. insert the keys one by one into an empty BST, or
-  //   2. a queue of (node, min, max) entries for O(n) time.
-  // return nullptr;  placeholder return value
-
   if (keys.empty())
     return nullptr;
 
@@ -107,17 +98,14 @@ Node *buildFromLevelOrder(const std::vector<int> &keys) {
 
 // Maximum depth of any node in the tree.
 int height(Node *root) {
-  // TODO
   if (root == nullptr)
     return -1;
 
-  return 1 + std::max(height(root->left),
-                      height(root->right)); // placeholder return value
+  return 1 + std::max(height(root->left), height(root->right));
 }
 
 // Number of nodes with an odd key.
 int sizeOdd(Node *root) {
-  // TODO
   if (root == nullptr)
     return 0;
 
@@ -127,7 +115,6 @@ int sizeOdd(Node *root) {
 
 // At every node, do the left and right subtrees have the same height?
 bool isPerfectlyBalanced(Node *root) {
-  // TODO
   if (root == nullptr)
     return true;
 
@@ -137,7 +124,6 @@ bool isPerfectlyBalanced(Node *root) {
 
 // Is every node semi-balanced? (see lab handout for the definition)
 bool isSemiBalanced(Node *root) {
-  // TODO
   if (root == nullptr)
     return true;
 
@@ -152,7 +138,6 @@ bool isSemiBalanced(Node *root) {
 
 // Number of nodes at depth d.
 int sizeAtDepth(Node *root, int d) {
-  // TODO
   if (root == nullptr)
     return 0;
 
@@ -164,7 +149,6 @@ int sizeAtDepth(Node *root, int d) {
 
 // Number of nodes whose depth is < d.
 int sizeAboveDepth(Node *root, int d) {
-  // TODO
   if (root == nullptr)
     return 0;
 
@@ -177,7 +161,6 @@ int sizeAboveDepth(Node *root, int d) {
 
 // Number of nodes whose depth is > d.
 int sizeBelowDepth(Node *root, int d) {
-  // TODO
   if (root == nullptr)
     return 0;
 
