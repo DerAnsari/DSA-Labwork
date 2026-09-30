@@ -15,8 +15,13 @@ private:
   };
   Node *root = nullptr;
 
-  int height(Node *n) { return (n == nullptr) ? 0 : n->height; }
+  int height(Node *n) const { return (n == nullptr) ? 0 : n->height; }
 
+  Node *minNode(Node *n) {
+    while (n->left != nullptr)
+      n = n->left;
+    return n;
+  }
   int balanceFactor(Node *n) const {
     return height(n->left) - height(n->right);
   }
@@ -69,8 +74,49 @@ private:
     return root;
   }
 
+  Node *putHelper(Node *root, const Key &key, const Value &val) {
+    if (root == nullptr)
+      return new Node(key, val, 1);
+
+    if (key < root->key)
+      root->left = putHelper(root->left, key, val);
+    else if (key > root->key)
+      root->right = putHelper(root->right, key, val);
+    else {
+      root->value = val;
+      return root;
+    }
+
+    return rebalance(root);
+  }
+
+  Node *removeHelper(Node *root, const Key &key) {
+    if (root == nullptr)
+      throw std::out_of_range("Key Not Found");
+
+    if (key < root->key)
+      root->left = remove(root->left, key);
+    else if (key > root->key)
+      root->right = remove(root->right, key);
+    else {
+      if (root->left == nullptr || root->right == nullptr) {
+        Node *deleted = (root->left == nullptr) ? root->right : root->left;
+        delete root;
+        return deleted;
+      }
+
+      Node *s = min(root->right);
+      root->key = s->key;
+      root->value = s->value;
+      root->right = remove(root->right, s->key);
+    }
+    return rebalance(root);
+  }
+
 public:
-  void put(const Key &key, const Value &val) {}
+  void put(const Key &key, const Value &val) {
+    root = putHelper(root, key, val);
+  }
 
   Value get(Key key) const {
     Node *n = root;
@@ -86,5 +132,5 @@ public:
     throw std::out_of_range("Key not found");
   }
 
-  void remove(Key key) {}
+  void remove(const Key &key) { root = removeHelper(root, key); }
 };
